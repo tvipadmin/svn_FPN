@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: log4j-1.2.9.jar
+ 
+Created-By: 1.6.0_02 (Sun Microsystems Inc.)
+Main-Class: notepad

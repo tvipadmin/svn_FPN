@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false">
+	<class name="com.televital.fptelemedicine.domain.Login" table="TBL_Login" polymorphism="implicit">
+		<id name="loginId" column="loginId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="password" column="Password"></property>
+		<property name="activationKey" column="ActivationKey"></property>
+		<property name="currentLoginStatus" column="CurrentLoginStatus"></property>
+		<property name="lastLoginTime" column="LastLoginTime"></property>
+		<property name="accountType" column="AccountType"></property>
+		<property name="accountStatus" column="AccountStatus"></property>
+		<property name="tstamp" column="TStamp"></property>
+		<component name="userPreferences" class="com.televital.fptelemedicine.domain.UserPreferences">
+			<property name="css" column="CSS"></property>
+			<property name="language" column="Language"></property>
+			<property name="maxPageSize" column="MaxPageSize"></property>
+		</component> 
+		<any name="person" meta-type="string" id-type="string">
+			<meta-value value="ADMIN" class="com.televital.fptelemedicine.domain.Admin"/>
+			<meta-value value="DOCTOR" class="com.televital.fptelemedicine.domain.Doctor"/>
+			<meta-value value="LAB" class="com.televital.fptelemedicine.domain.Lab"/>			
+			<column name="PERSON_TYPE"></column>
+			<column name="PERSON_ID"></column>
+		</any>
+	</class>
+	
+	<class name="com.televital.fptelemedicine.domain.Admin" table="TBL_Admin" polymorphism="implicit">
+		<id name="adminId" column="AdminId">
+			<generator class="foreign">
+				<param name="property">login</param>
+			</generator>
+		</id> 
+		<property name="firstName" column="FirstName"></property>
+		<property name="lastName" column="LastName"></property>
+		<component name="contactDetails" class="com.televital.fptelemedicine.domain.ContactDetails">
+			<property name="address" column="Address"></property>
+		    <property name="contactNumber" column="ContactNumber"></property>
+		    <property name="email" column="Email"></property>
+		</component>
+		<property name="tstamp" column="TStamp"></property>		
+	</class>
+	
+	<class name="com.televital.fptelemedicine.domain.Doctor"	table="TBL_Doctor" polymorphism="implicit">
+		<id name="doctorId" column="DoctorId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="firstName" column="FirstName"></property>
+		<property name="lastName" column="LastName"></property>
+		<property name="photo" column="Photo"></property>
+		<component name="contactDetails" class="com.televital.fptelemedicine.domain.ContactDetails">
+			<property name="address" column="Address"></property>
+		    <property name="contactNumber" column="ContactNumber"></property>
+		    <property name="email" column="Email"></property>
+		</component>
+		
+		<property name="education" column="Education"></property>
+		<property name="designation" column="Designation"></property>
+		<property name="identification" column="Identification"></property>
+		<property name="clinicName" column="ClinicName"></property>
+		<property name="specialty" column="Specialty"></property>
+		<property name="type" column="Type"></property>
+		<property name="tstamp" column="TStamp"></property>
+	    <property name="flag" column="Flag"></property>
+	</class>
+	
+	<class name="com.televital.fptelemedicine.domain.Lab"	table="TBL_Lab" polymorphism="implicit">
+		<id name="labId" column="LabId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="labName" column="LabName"></property>
+		<property name="photo" column="Logo"></property>
+		<component name="contactDetails" class="com.televital.fptelemedicine.domain.ContactDetails">
+			<property name="address" column="Address"></property>
+		    <property name="contactNumber" column="ContactNumber"></property>
+		    <property name="email" column="Email"></property>
+		</component>
+		<property name="contactPerson" column="ContactPerson"></property>
+		<property name="tstamp" column="TStamp"></property>
+	     <property name="flag" column="Flag"></property>
+	</class>
+	
+	<class name="com.televital.fptelemedicine.domain.Patient"	table="TBL_Patient" polymorphism="implicit">
+		<id name="patientId" column="PatientId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="firstName" column="FirstName"></property>
+		<property name="lastName" column="LastName"></property>
+		<property name="gender" column="Gender"></property>
+		<property name="dob" column="DateOfBirth"></property>
+		<property name="maritalStatus" column="MaritalStatus"></property>
+		<property name="bloodGroup" column="BloodGroup"></property>
+		<property name="occupation" column="Occupation"></property>
+		<property name="photo" column="Photo"></property>
+		<component name="contactDetails" class="com.televital.fptelemedicine.domain.ContactDetails">
+			<property name="address" column="Address"></property>
+		    <property name="contactNumber" column="ContactNumber"></property>
+		    <property name="email" column="Email"></property>
+		</component>
+		<property name="tstamp" column="TStamp"></property>
+	   <many-to-one name="creator" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="Creator"></column>
+		</many-to-one>
+	</class>
+	
+
+	<class name="com.televital.fptelemedicine.domain.History"	table="TBL_History" polymorphism="implicit">
+		<id name="historyId" column="HistoryId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="patientId" column="PatientId"></property>
+		<property name="pastIllness" column="PastIllness"></property>
+		<property name="familyHistory" column="FamilyHistory"></property>
+		<property name="currentMedication" column="CurrentMedication"></property>
+		<property name="immunization" column="Immunization"></property>
+		<property name="allergies" column="Allergies"></property>
+		<property name="attachments" column="Attachments"></property>
+		
+	</class>
+	
+	
+  
+  <class name="com.televital.fptelemedicine.domain.FPCase"	table="TBL_Case" polymorphism="implicit">
+		<id name="caseId" column="CaseId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="caseStatus" column="CaseStatus"></property>
+		<property name="caseTitle" column="CaseTitle"></property>
+		<property name="complaint_symptoms" column="Complaint_symptoms"></property>
+		<property name="caseDescription" column="CaseDescription"></property>
+		<property name="caseattachments" column="Attachments"></property>
+		<property name="weight" column="Weight"></property>
+		<property name="height" column="Height"></property>
+		<property name="temperature" column="Temperature"></property>
+		<property name="bloodPressure" column="BloodPressure"></property>
+		<property name="pulseRate" column="PulseRate"></property>
+		<property name="respirationRate" column="RespirationRate"></property>
+		<property name="lmp" column="Lmp"></property>
+		<property name="diagnosis" column="Diagnosis"></property>
+		<property name="prescription" column="Prescription"></property>
+		<property name="impression" column="Impression"></property>
+		<property name="starttstamp" column="StartTstamp"></property>
+		<property name="endtstamp" column="EndTstamp"></property>
+		
+		<many-to-one name="doctor" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="DoctorId"></column>
+		</many-to-one>
+		<many-to-one name="patient" class="com.televital.fptelemedicine.domain.Patient">
+			<column name="PatientId"></column>
+		</many-to-one>
+		
+	</class>
+	<class name="com.televital.fptelemedicine.domain.LabTest"	table="TBL_LabTest" polymorphism="implicit">
+		<id name="labTestId" column="LabTestId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="testReport" column="TestReport"></property>
+		<property name="orderedTime" column="OrderedTime"></property>
+		<property name="flag" column="Flag"></property>
+		
+		<many-to-one name="labServices" class="com.televital.fptelemedicine.domain.LabServices">
+			<column name="LabServiceId"></column>
+		</many-to-one>
+		<many-to-one name="fpcase" class="com.televital.fptelemedicine.domain.FPCase">
+			<column name="CaseId"></column>
+		</many-to-one>
+	
+		
+	</class>
+	
+	
+	<class name="com.televital.fptelemedicine.domain.CaseReferral"	table="TBL_Referral" polymorphism="implicit">
+		<id name="referralId" column="ReferralId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="referredTime" column="ReferredTime"></property>
+		<property name="opinions" column="Opinions"></property>
+	    <property name="flag" column="Flag"></property>
+		<many-to-one name="fpcase" class="com.televital.fptelemedicine.domain.FPCase">
+			<column name="CaseId"></column>
+		</many-to-one>
+		<many-to-one name="specalistId" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="SpecalistId"></column>
+		</many-to-one>
+		<many-to-one name="familyPhysicianId" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="FamilyPhysicianId"></column>
+		</many-to-one>
+		
+	</class>
+	
+	<class name="com.televital.fptelemedicine.domain.LabServices"	table="TBL_LabServices" polymorphism="implicit">
+		<id name="labServiceId" column="LabServiceId">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="serviceName" column="ServiceName"></property>
+		<many-to-one name="lab" class="com.televital.fptelemedicine.domain.Lab">
+			<column name="LabId"></column>
+		</many-to-one>	
+	
+	</class>
+	<class name="com.televital.fptelemedicine.domain.LastRecord" polymorphism="implicit" table="TBL_LastRecord">
+		<id name="code" column="Code">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="lastId" column="LastId"></property>
+				
+	</class>
+	<class name="com.televital.fptelemedicine.domain.FavSpecalist" table="TBL_FavSpecalist" polymorphism="implicit">
+		<id name="favSpecalistId" column="FavSpecalistId">
+			<generator class="assigned"></generator>
+		</id>
+		
+		<many-to-one name="familyPhysicianId" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="FamilyPhysicianId"></column>
+		</many-to-one>
+		<many-to-one name="specalistId" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="SpecalistId"></column>
+		</many-to-one>
+		<property name="status" column="AccountStatus"/>
+		<property name="flag" column="Flag"></property>
+	</class>
+	
+	
+	<class name="com.televital.fptelemedicine.domain.FavLab" table="TBL_FavLab" polymorphism="implicit">
+		<id name="favLabId" column="FavLabId">
+			<generator class="assigned"></generator>
+		</id>
+		
+		<many-to-one name="familyPhysicianId" class="com.televital.fptelemedicine.domain.Doctor">
+			<column name="FamilyPhysicianId"></column>
+		</many-to-one>
+		<many-to-one name="labId" class="com.televital.fptelemedicine.domain.Lab">
+			<column name="LabId"></column>
+		</many-to-one>
+		<property name="status" column="AccountStatus"/>
+		<property name="flag" column="Flag"></property>
+	</class>
+	
+			
+	</hibernate-mapping>

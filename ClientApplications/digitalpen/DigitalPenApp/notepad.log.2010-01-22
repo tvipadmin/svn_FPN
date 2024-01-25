@@ -1,0 +1,68 @@
+ERROR [main] (notepad.java:237) - display logo error javax.imageio.IIOException: Can't read input file!
+ERROR [main] (notepad.java:237) - display logo error javax.imageio.IIOException: Can't read input file!
+ERROR [main] (notepad.java:237) - display logo error javax.imageio.IIOException: Can't read input file!
+ERROR [main] (notepad.java:244) - display logo error java.lang.ClassCastException: sun.awt.image.ToolkitImage cannot be cast to java.awt.image.BufferedImage
+ERROR [main] (notepad.java:244) - display logo error java.lang.ClassCastException: sun.awt.image.ToolkitImage cannot be cast to java.awt.image.BufferedImage
+ERROR [main] (notepad.java:237) - display logo error javax.imageio.IIOException: Can't read input file!
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:129) - two
+ERROR [main] (notepad.java:252) - inside all logo
+ERROR [main] (notepad.java:538) - inside buffered image
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:129) - two
+ERROR [main] (notepad.java:252) - inside all logo
+ERROR [main] (notepad.java:267) - display logo error java.lang.IllegalArgumentException: input == null!
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:129) - two
+ERROR [main] (notepad.java:252) - inside all logo
+ERROR [main] (notepad.java:256) - oneone
+ERROR [main] (notepad.java:269) - display logo error java.lang.IllegalArgumentException: input == null!
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:129) - two
+ERROR [main] (notepad.java:252) - inside all logo
+ERROR [main] (notepad.java:256) - oneonenull
+ERROR [main] (notepad.java:269) - display logo error java.lang.IllegalArgumentException: input == null!
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:127) - imageURL value : null
+ERROR [main] (notepad.java:130) - two
+ERROR [main] (notepad.java:253) - inside all logo
+ERROR [main] (notepad.java:257) - oneonenull
+ERROR [main] (notepad.java:270) - display logo error java.lang.IllegalArgumentException: input == null!
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:127) - imageURL value : null
+ERROR [main] (notepad.java:130) - two
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:127) - imageURL value : null
+ERROR [main] (notepad.java:130) - two
+ERROR [main] (notepad.java:148) - three
+ERROR [main] (notepad.java:161) - four
+ERROR [main] (notepad.java:164) - five
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:127) - imageURL value : null
+ERROR [main] (notepad.java:130) - two
+ERROR [main] (notepad.java:148) - three
+ERROR [main] (notepad.java:161) - four
+ERROR [main] (notepad.java:164) - five
+ERROR [main] (notepad.java:124) - one
+ERROR [main] (notepad.java:127) - imageURL value : null
+ERROR [main] (notepad.java:130) - two
+ERROR [main] (notepad.java:148) - three
+ERROR [main] (notepad.java:161) - four
+ERROR [main] (notepad.java:164) - five
+ERROR [main] (notepad.java:148) - three
+ERROR [main] (notepad.java:161) - four
+ERROR [main] (notepad.java:164) - five
+ERROR [main] (notepad.java:166) - six
+ERROR [main] (notepad.java:172) - inside create
+ERROR [main] (notepad.java:139) - imageURL value : null
+ERROR [main] (notepad.java:151) - three
+ERROR [main] (notepad.java:164) - four
+ERROR [main] (notepad.java:167) - five
+ERROR [main] (notepad.java:169) - six
+ERROR [main] (notepad.java:175) - inside create
+ERROR [main] (notepad.java:139) - imageURL value ddd: null
+ERROR [main] (notepad.java:151) - three
+ERROR [main] (notepad.java:164) - four
+ERROR [main] (notepad.java:167) - five
+ERROR [main] (notepad.java:169) - six
+ERROR [main] (notepad.java:175) - inside create

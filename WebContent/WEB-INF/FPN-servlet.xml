@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                            http://www.directwebremoting.org/schema/spring-dwr
+                            http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+				<value>network</value>
+				<value>lab</value>
+				<value>mail</value>
+				<value>doctor</value>
+				<value>login</value>
+				<value>admin</value>
+				<value>patient</value>
+				<value>fpportal</value>
+				<value>fpcase</value>
+			</list>
+		</property>	
+	</bean>
+	
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/classes/network.properties</value>
+				<value>/WEB-INF/classes/fpportal.properties</value>
+				<value>/WEB-INF/classes/mail.properties</value>
+				<value>/WEB-INF/classes/sms.properties</value>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="basename" value="views"></property>
+	</bean>
+	
+	<dwr:controller id="dwrController" debug="true" />
+	
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<!--<prop key="ScheduleLogin.htm">loginController</prop>-->
+							
+				<prop key="Login.htm">loginController</prop>
+				<prop key="Logout.htm">logoutController</prop>
+				<prop key="JoinNetwork.htm">viewsController</prop>
+				<prop key="LabNetwork.htm">viewsController</prop>
+				<prop key="RandomValue.htm">viewsController</prop>
+				<prop key="ViewDocMainPage.htm">viewsController</prop>
+				<prop key="ViewLabMainPage.htm">viewsController</prop>
+				<prop key="HelpPage.htm">viewsController</prop>
+				<prop key="HelpIndexA.htm">viewsController</prop>
+				<prop key="ContentPageA.htm">viewsController</prop>
+				<prop key="TermPage.htm">viewsController</prop>	
+				<prop key="PrivacyPage.htm">viewsController</prop>	
+				<prop key="DisplayPhoto.htm">displayPhotoController</prop>
+				<prop key="/engine.js">dwrController</prop>
+                <prop key="/util.js">dwrController</prop>
+                <prop key="/interface/**">dwrController</prop>
+                <prop key="/call/**">dwrController</prop>
+           </props>
+		</property>
+	</bean>
+	<bean id="mainPageManagement" class="com.televital.fptelemedicine.web.MainPageManagement">
+	  <dwr:remote javascript="MainPageManagement">
+       <dwr:include method="loadDoctors"/>  
+       <dwr:include method="loadLabs"/>
+       
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>  
+	</bean>
+	
+    <bean id="doctorManagement" class="com.televital.fptelemedicine.web.DoctorManagement">
+	<dwr:remote javascript="DoctorManagement">
+       <dwr:include method="loadDoctors"/>    
+       <dwr:include method="loadDoctorsPending"/> 
+       <dwr:include method="loadDoctorsDisabled"/> 
+       <dwr:include method="loadDoctorsEnabled"/> 
+       <dwr:include method="saveDoctor"/> 
+       <dwr:include method="deleteDoctor"/> 
+       <dwr:include method="editeachDoctor"/> 
+       <dwr:include method="searchDoctordwr"/>
+       <dwr:include method="loadPercentage"/>     
+       <dwr:include method="fileUploadStart"/> 
+       <dwr:include method="loadDoctorId"/>
+       <dwr:include method="changeStatusDoctor"/>
+       <dwr:include method="deleteSelfRegDoctor"/>
+       <dwr:include method="sendConformationStatus"/>
+       <dwr:include method="newLabReg"/>
+       <dwr:include method="resetPasswordFun"/>
+       <dwr:include method="loadDoctorByLogin"/>
+       
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+    <property name="filePath" value="${data.path}/${photo.path}"/>
+   
+    <property name="hostName" value="${SMTP_HOST_NAME}"/>
+    <property name="authUser" value="${SMTP_AUTH_USER}"/>
+    <property name="authPassword" value="${SMTP_AUTH_PWD}"/>
+    <property name="portNo" value="${PORT}"/>
+    <property name="emailFrom" value="${EMAIL_FROM}"/>
+    <property name="regSub" value="${ACCOUNT_CONFIRMATION_SUBJECT}"/>
+    <property name="regContent1" value="${ACCOUNT_CONFIRMATION_CONTENT1}"/>
+    <property name="regContent2" value="${ACCOUNT_CONFIRMATION_CONTENT2}"/>
+    <property name="contentStart" value="${CONTENT_START}"/>
+    <property name="resetPassword" value="${resetPassword}"/>
+	</bean>
+       
+     <bean id="doctorValidator" class="com.televital.fptelemedicine.validation.DoctorManagementValidator">
+	<dwr:remote javascript="DoctorManagementValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+     <property name="filePath" value="${data.path}/${photo.path}"/>
+	</bean>
+	 
+	 <bean id="doctorRegManagement" class="com.televital.fptelemedicine.web.DoctorRegManagement">
+	  <dwr:remote javascript="DoctorRegManagement">
+       <dwr:include method="saveRegDoctor"/> 
+       <dwr:include method="loadPercentage"/>     
+       <dwr:include method="fileUploadStart"/> 
+       <dwr:include method="sendConformation"/> 
+       
+  <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+    <property name="filePath" value="${data.path}/${photo.path}"/>
+    <property name="hostName" value="${SMTP_HOST_NAME}"/>
+    <property name="authUser" value="${SMTP_AUTH_USER}"/>
+    <property name="authPassword" value="${SMTP_AUTH_PWD}"/>
+    <property name="portNo" value="${PORT}"/>
+    <property name="emailFrom" value="${EMAIL_FROM}"/>
+    <property name="regSub" value="${SELF_REG_SUBJECT}"/>
+    <property name="regContent" value="${SELF_REG_CONTENT}"/>
+    <property name="contentStart" value="${CONTENT_START}"/>
+	</bean>
+    
+   
+    
+     <bean id="doctorRegValidator" class="com.televital.fptelemedicine.validation.RegDocValidator">
+	<dwr:remote javascript="RegDocValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+     <property name="filePath" value="${data.path}/${photo.path}"/>
+	</bean>
+	
+	  <bean id="labManagement" class="com.televital.fptelemedicine.web.LabManagement">
+	<dwr:remote javascript="LabManagement">
+       <dwr:include method="loaddwrLabs"/>    
+       <dwr:include method="loaddwrLabsPending"/>
+       <dwr:include method="loaddwrLabsEnabled"/>
+       <dwr:include method="loaddwrLabsDisabled"/>
+       <dwr:include method="saveLab"/> 
+       <dwr:include method="deleteLab"/> 
+       <dwr:include method="editeachLab"/> 
+       <dwr:include method="searchLabdwr"/>
+       <dwr:include method="loadPercentage"/>  
+       <dwr:include method="fileUploadStart"/> 
+       <dwr:include method="loaddwrLabsLogin"/> 
+       <dwr:include method="loaddwrLabsLoginLab"/> 
+       
+       <dwr:include method="showLabFav"/> 
+       <dwr:include method="showLabSelected"/> 
+       <dwr:include method="createFavLab"/> 
+       <dwr:include method="removeFavLab"/> 
+       <dwr:include method="searchLabFav"/>
+       <dwr:include method="searchAllLab"/>
+       
+       <dwr:include method="showPendingFP"/>
+       <dwr:include method="showConfirmedFav"/>
+       <dwr:include method="updateFavLab"/>
+       <dwr:include method="removeFPNetwork"/>
+       <dwr:include method="searchDocPending"/>
+       <dwr:include method="searchDocConfirmed"/>
+       <dwr:include method="changeStatusLabD"/> 
+       
+       <dwr:include method="deleteSelfRegLab"/> 
+       
+       <dwr:include method="sendConformationStatusLab"/> 
+       <dwr:include method="newRequest"/>  
+       <dwr:include method="resetPasswordFunLab"/>
+       
+       <dwr:include method="loadIndividualLab"/>
+          
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>         
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+    <property name="filePath" value="${data.path}/${photo.path}"/>
+     <property name="hostName" value="${SMTP_HOST_NAME}"/>
+    <property name="authUser" value="${SMTP_AUTH_USER}"/>
+    <property name="authPassword" value="${SMTP_AUTH_PWD}"/>
+    <property name="portNo" value="${PORT}"/>
+    <property name="emailFrom" value="${EMAIL_FROM}"/>
+    <property name="regSub" value="${ACCOUNT_CONFIRMATION_SUBJECT}"/>
+    <property name="regContent1" value="${ACCOUNT_CONFIRMATION_CONTENT1}"/>
+    <property name="regContent2" value="${ACCOUNT_CONFIRMATION_CONTENT2}"/>
+    <property name="contentStart" value="${CONTENT_START}"/>
+    <property name="resetPassword" value="${resetPassword}"/>
+	</bean>
+    
+    <bean id="labValidator" class="com.televital.fptelemedicine.validation.LabManagementValidator">
+	<dwr:remote javascript="LabManagementValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter> 
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+      <property name="filePath" value="${data.path}/${photo.path}"/>
+   	</bean>
+	 
+	  <bean id="labRegManagement" class="com.televital.fptelemedicine.web.LabRegManagement">
+	<dwr:remote javascript="LabRegManagement">
+       <dwr:include method="saveRegLab"/> 
+       <dwr:include method="loadPercentage"/>     
+       <dwr:include method="fileUploadStart"/> 
+       <dwr:include method="sendConformationLab"/> 
+       
+  <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+    <property name="filePath" value="${data.path}/${photo.path}"/>
+   <property name="hostName" value="${SMTP_HOST_NAME}"/>
+    <property name="authUser" value="${SMTP_AUTH_USER}"/>
+    <property name="authPassword" value="${SMTP_AUTH_PWD}"/>
+    <property name="portNo" value="${PORT}"/>
+    <property name="emailFrom" value="${EMAIL_FROM}"/>
+    <property name="regSub" value="${SELF_REG_SUBJECT}"/>
+    <property name="regContent" value="${SELF_REG_CONTENT}"/>
+    <property name="contentStart" value="${CONTENT_START}"/>
+	</bean>
+    
+   
+    
+     <bean id="labRegValidator" class="com.televital.fptelemedicine.validation.RegLabValidator">
+	<dwr:remote javascript="RegLabValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+     <property name="filePath" value="${data.path}/${photo.path}"/>
+     
+	</bean>
+	
+	 
+	 
+	   <bean id="labServicesManagement" class="com.televital.fptelemedicine.web.LabServicesManagement">
+	<dwr:remote javascript="LabServicesManagement">
+       <dwr:include method="loaddwrLabService"/>    
+       <dwr:include method="saveServiceLab"/> 
+       <dwr:include method="deleteLabServices"/> 
+       <dwr:include method="editeachLabService"/> 
+       <dwr:include method="searchLabServicesdwr"/>
+       <dwr:include method="showLabServices"/>
+       <dwr:include method="deleteLabTest"/>
+       <dwr:include method="showdwrServices"/>
+       <dwr:include method="loadPatient"/>
+       <dwr:include method="searchPatientListdwr"/>
+       <dwr:include method="updateLabTest"/>
+       <dwr:include method="deleteCaseReferralDwr"/>
+       <dwr:include method="deleteServiceReport"/>
+       <dwr:include method="newRequest"/>  
+       <dwr:include method="readPatientReferral"/>  
+       
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>         
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="dataPath" value="${data.path}"/>
+    <property name="labReportPath" value="${labReport.path}"/>
+
+	</bean>
+    
+    <bean id="labServicesValidator" class="com.televital.fptelemedicine.validation.LabServiceManagementValidator">
+	<dwr:remote javascript="LabServicesValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter> 
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+	</bean>
+	 
+	 
+	   <bean id="familyPhysicianManagement" class="com.televital.fptelemedicine.web.FamilyPhysicianManagement">
+	<dwr:remote javascript="FamilyPhysicianManagement">
+       <dwr:include method="loadFamilyPhysicians"/>    
+       <dwr:include method="savePatient"/> 
+       <dwr:include method="deletePatient"/> 
+       <dwr:include method="editeachPatient"/> 
+       <dwr:include method="searchPatientdwr"/>
+       <dwr:include method="searchPatientdwrNo"/>      
+       <dwr:include method="loadPatientage"/>     
+       <dwr:include method="fileUploadStart"/> 
+       <dwr:include method="getPatientIdd"/>
+       <dwr:include method="readPatientOpinion"/>
+       <dwr:include method="readPatientReport"/>
+       <dwr:include method="newRequest"/>
+       
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+    <property name="filePath" value="${data.path}/${photo.path}"/>
+   
+	</bean>
+    <bean id="familyPhysicianValidator" class="com.televital.fptelemedicine.validation.FamilyPhyManagementValidator">
+	<dwr:remote javascript="FamilyPhyManagementValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+	</bean>
+	
+	 <bean id="statisticsManagement" class="com.televital.fptelemedicine.web.StatisticsManagement">
+	  <dwr:remote javascript="StatisticsManagement">
+	   <dwr:include method="loadPatRegisteredMonthWise"/>    
+	   <dwr:include method="loadPatReferredSep"/>    
+	   <dwr:include method="getCurrentDateS"/>    
+       <dwr:include method="getOneMonthBackDateS"/>    
+       <dwr:include method="loadRegisteredMonthWise"/> 
+       <dwr:include method="validateFromToDate"/>  
+       <dwr:include method="validateEnteredDate"/>   
+       <dwr:include method="loadPatOrderedLab"/> 
+       <dwr:include method="loadPatReferredOrdered"/> 
+       <dwr:include method="loadFPPatReferredMonthWise"/> 
+       <dwr:include method="loadPatReferredByFP"/> 
+       <dwr:include method="loadFPPatTestOrderedMonthWise"/> 
+       <dwr:include method="loadTotalTestOrderedMonthWise"/>
+       <dwr:include method="loadPatTestOrderedByFP"/>
+       <dwr:include method="loadTotalTestOrderedByFP"/>
+       <dwr:include method="loadTotalPatOrderedLab"/>
+                 
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+     <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    </bean> 	
+	
+	<bean id="specialistManagement" class="com.televital.fptelemedicine.web.SpecialistManagement">
+	<dwr:remote javascript="SpecialistManagement">
+       <dwr:include method="loadPatient"/>    
+       <dwr:include method="searchPatientdwr"/>
+        <dwr:include method="searchPatientdwrNo"/>
+       <dwr:include method="getPatientIdd"/>
+       <dwr:include method="readPatientReferral"/>
+       <dwr:include method="newRequest"/>
+       
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+  	</bean>
+		
+ <bean id="searchDocFav" class="com.televital.fptelemedicine.web.CaseManagement">
+	<dwr:remote javascript="CaseManagement">
+       <dwr:include method="saveCaseHistory"/> 
+       <dwr:include method="deleteCaseAtt"/> 
+       <dwr:include method="deleteHistoryAtt"/> 
+       <dwr:include method="editeachCase"/> 
+       <dwr:include method="closeOpenCase"/> 
+       <dwr:include method="saveCase"/> 
+       <dwr:include method="showSpecalist"/> 
+       <dwr:include method="createNewCaseTitle"/> 
+       <dwr:include method="createFavSep"/> 
+       <dwr:include method="showSpecalistFav"/>
+       <dwr:include method="showFavSep"/>
+       <dwr:include method="removeFavSep"/>
+       <dwr:include method="searchDocFav"/>
+       <dwr:include method="searchAllDoc"/>
+       <dwr:include method="showPendingFP"/>
+       <dwr:include method="showConfirmedFav"/>
+       <dwr:include method="confirmRequest"/>
+       <dwr:include method="appendDocConfirmValue"/>
+       <dwr:include method="updateFavSep"/>
+       <dwr:include method="removeFPNetwork"/>
+       <dwr:include method="searchDocPending"/>
+       <dwr:include method="searchDocConfirmed"/>
+       <dwr:include method="showSpecalistLogin"/>
+       <dwr:include method="newRequest"/>
+       <dwr:include method="showFPLogin"/>
+       <dwr:include method="showLabLogin"/>
+     
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>         
+    </dwr:remote>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+    <property name="licenseCodec" ref="licenseCodecImpl"></property>
+    <property name="filePath" value="${data.path}/${photo.path}"/>
+    <property name="dataPath" value="${data.path}"/>
+    <property name="casePath" value="${case.path}"/>
+    <property name="historyPath" value="${history.path}"/>
+   
+	</bean>
+    
+    <bean id="caseValidator" class="com.televital.fptelemedicine.validation.CaseManagementValidator">
+	<dwr:remote javascript="CaseManagementValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter> 
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+	</bean>
+	 
+	 <bean id="historyValidator" class="com.televital.fptelemedicine.validation.HistoryManagementValidator">
+	<dwr:remote javascript="HistoryManagementValidator">
+       <dwr:include method="getInputFieldValidationMessage"/>  
+       <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter> 
+    </dwr:remote>    
+     <property name="messageSource" ref="messageSource"> </property>
+     <property name="fpportalFacade" ref="fpportalFacade"> </property>
+	</bean>
+	 	
+    <bean id="uploadInfoBean" class="com.televital.fptelemedicine.domain.UploadInfoBean">
+	<dwr:remote javascript="UploadInfoBean">
+       <dwr:include method="getPercentage"/>    
+       <dwr:include method="setPercentage"/>  
+       <dwr:include method="setTestData"/>
+       <dwr:include method="cancelPhoto"/>  
+    </dwr:remote>
+  
+	</bean>
+	 
+   <bean id="smsSender" class="com.televital.fptelemedicine.domain.SMSSenderClass">
+	<dwr:remote javascript="SMSSender">
+       <dwr:include method="sendMessage"/>    
+      
+    <dwr:filter class="com.televital.fptelemedicine.filter.DwrSessionFilter"></dwr:filter>  
+    </dwr:remote>
+    <property name="smsUserId" value="${smsUserId}"/>
+    <property name="smsPassword" value="${smsPassword}"/>
+    <property name="smsSenderId" value="${smsSenderId}"/>
+    <property name="smsMessagePatRef" value="${smsMessagePatRef}"/>
+    <property name="fpportalFacade" ref="fpportalFacade"> </property>
+   	</bean>
+	
+	<dwr:configuration>
+   <dwr:convert type="bean" class="com.televital.fptelemedicine.domain.*" />
+   </dwr:configuration>
+	
+	
+	
+	
+	<bean id="licenseCodecImpl" class="com.televital.fptelemedicine.license.ILicenseCodecImpl"></bean>
+	
+	
+	<bean id="SecureUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="permissionInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+				<prop key="AdminMain.htm">viewsController</prop>		
+				<prop key="DoctorManagement.htm">viewsController</prop>	
+				<prop key="LabManagement.htm">viewsController</prop>	
+				<prop key="FileUpload.htm">fileUploadController</prop>
+				<prop key="FamilyPhysicianMain.htm">viewsController</prop>
+				<prop key="FamilyPhysicianManagement.htm">viewsController</prop>
+				<prop key="SpecalistManagement.htm">viewsController</prop>
+				<prop key="ViewEmr.htm">viewEMRController</prop>
+				<prop key="ViewEmrStatistics.htm">viewEMRStatisticsController</prop>				
+				<prop key="FileUploadHistory.htm">fileUploadControllerhistory</prop>
+				<prop key="FileUploadCase.htm">fileUploadControllercase</prop>
+				<prop key="FileUploadLabReport.htm">fileUploadControllerlabreport</prop>
+				<prop key="OpenFile.htm">openAttachedFileController</prop>
+				<prop key="LabServicesManagement.htm">viewsController</prop>
+				<prop key="PatientListLabManagement.htm">viewsController</prop>
+				<prop key="ViewDoctor.htm">viewsController</prop>
+				<prop key="SpecalistFav.htm">viewsController</prop>
+				<prop key="LabFav.htm">viewsController</prop>
+				<prop key="MyNetwork.htm">viewsController</prop>
+				<prop key="MyNetworkLab.htm">viewsController</prop>
+				<prop key="SummaryPrint.htm">printSummaryController</prop>
+				<prop key="ResetLogin.htm">resetLoginController</prop>
+				<prop key="FamilyPhysicianStatistics.htm">viewsController</prop>
+				<prop key="SpecalistStatistics.htm">viewsController</prop>
+				<prop key="LabStatistics.htm">viewsController</prop>
+				
+					
+				<prop key="ChangeDoctorProfile.htm">viewsController</prop>
+				<prop key="ChangeLabProfile.htm">viewsController</prop>	
+				<prop key="ChangePassword.htm">changePasswordController</prop>		 
+		    </props>	   
+		</property>	
+	</bean>  		
+	      
+	      
+	<bean id="permissionInterceptor" class="com.televital.fptelemedicine.web.PermissionInterceptor"/>
+	
+	<bean id="viewsController" class="com.televital.fptelemedicine.web.ViewsController">
+		<property name="methodNameResolver" ref="viewsControllerResolver"></property>
+	</bean>
+	
+	<bean id="resetLoginController" class="com.televital.fptelemedicine.web.ResetLoginController">
+		<property name="formView" value="ResetLoginView"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+	</bean>
+	
+	
+	<bean id="viewsControllerResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/AdminMain.htm">AdminMainHandler</prop>
+				<prop key="/DoctorManagement.htm">DoctorManagementHandler</prop>
+				<prop key="/LabManagement.htm">LabManagementHandler</prop>
+				<prop key="/FamilyPhysicianMain.htm">FamilyPhysicianHandler</prop>
+				<prop key="/FamilyPhysicianManagement.htm">FamilyPhysicianManagementHandler</prop>
+				<prop key="/SpecalistManagement.htm">SpecalistManagementHandler</prop>
+				<prop key="/LabServicesManagement.htm">LabServicesManagementHandler</prop>
+				<prop key="/PatientListLabManagement.htm">PatientListLabManagementHandler</prop>
+				<prop key="/ViewDoctor.htm">DoctorViewManagementHandler</prop>
+				<prop key="/SpecalistFav.htm">SpecalistFavHandler</prop>
+				<prop key="/LabFav.htm">LabFavHandler</prop>
+				<prop key="/MyNetwork.htm">MyNetworkHandler</prop>
+				<prop key="/MyNetworkLab.htm">MyLabNetworkHandler</prop>
+				<prop key="/JoinNetwork.htm">JoinNetworkHandler</prop>
+				<prop key="/LabNetwork.htm">JoinLabHandler</prop>
+				<prop key="/RandomValue.htm">RandomValueHandler</prop>
+				<prop key="/ChangeDoctorProfile.htm">ChangeDoctorManegementHandler</prop>
+				<prop key="/ChangeLabProfile.htm">ChangeLabManagementHandler</prop>
+				<prop key="/ViewDocMainPage.htm">ViewDocMainPageHandler</prop>
+				<prop key="/ViewLabMainPage.htm">ViewLabMainPageHandler</prop>
+				<prop key="/HelpPage.htm">ViewHelpPageHandler</prop>
+				<prop key="/HelpIndexA.htm">ViewHelpIndexAHandler</prop>
+				<prop key="/ContentPageA.htm">ViewContentPageAHandler</prop>
+				<prop key="/FamilyPhysicianStatistics.htm">ViewFPStatisticsHandler</prop>
+				<prop key="/SpecalistStatistics.htm">ViewSepStatisticsHandler</prop>
+				<prop key="/LabStatistics.htm">ViewLabStatisticsHandler</prop>
+				
+				
+				<prop key="/TermPage.htm">ViewTermPageHandler</prop>
+				<prop key="/PrivacyPage.htm">ViewPrivacyPageHandler</prop>
+				
+			</props>		
+		</property>	
+	</bean>
+	
+	
+	
+	<bean id="loginController" class="com.televital.fptelemedicine.web.LoginController">
+		<property name="formView" value="LoginForm"></property>
+		<property name="successView" value="loginSuccess"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		<property name="licenseCodec" ref="licenseCodecImpl"></property>
+    </bean>
+	
+	<bean id="logoutController" class="com.televital.fptelemedicine.web.LogoutController">
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+	</bean>
+	
+	<bean id="changePasswordController" class="com.televital.fptelemedicine.web.ChangePasswordController">
+		<property name="formView" value="ChangePasswordView"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		<property name="validator" ref="changePasswordValidator"></property>
+	</bean>
+	
+	<bean id="changePasswordValidator" class="com.televital.fptelemedicine.validation.ChangePasswordValidator">
+	
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1000000000"/>
+        
+    </bean>
+		
+	<bean id="fileUploadController" class="com.televital.fptelemedicine.web.FileUploadController">
+        <property name="formView" value="fileUpload"/>
+        <property name="successView" value="fileUpload"/>
+        <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+        <property name="filePath" value="${data.path}/${photo.path}"/>
+        <property name="dataPath" value="${data.path}"/>
+        <property name="labReportPath" value="${labReport.path}"/>
+    </bean>
+	<bean id="fileUploadControllerhistory" class="com.televital.fptelemedicine.web.FileUploadController">
+        <property name="formView" value="fileUploadHistory"/>
+        <property name="successView" value="fileUploadHistory"/>
+        <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+        <property name="dataPath" value="${data.path}"/>
+        <property name="historyPath" value="${history.path}"/>
+      </bean>
+      
+      <bean id="fileUploadControllerlabreport" class="com.televital.fptelemedicine.web.FileUploadController">
+        <property name="formView" value="fileUploadLabReport"/>
+        <property name="successView" value="fileUploadLabReport"/>
+        <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+        <property name="dataPath" value="${data.path}"/>
+        <property name="labReportPath" value="${labReport.path}"/>
+      </bean>
+      
+      <bean id="fileUploadControllercase" class="com.televital.fptelemedicine.web.FileUploadController">
+        <property name="formView" value="fileUploadCase"/>
+        <property name="successView" value="fileUploadCase"/>
+        <property name="uploadInfoBeanInst" ref="uploadInfoBean"></property>
+        <property name="dataPath" value="${data.path}"/>
+        <property name="casePath" value="${case.path}"/>
+      </bean>
+	<bean id="viewEMRController" class="com.televital.fptelemedicine.web.ViewEMRController">
+		<property name="formView" value="ViewEmr"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		
+    </bean>
+    <bean id="viewEMRStatisticsController" class="com.televital.fptelemedicine.web.ViewEMRStatisticsController">
+		<property name="formView" value="ViewEmrStatistics"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+    </bean>
+
+   <bean id="printSummaryController" class="com.televital.fptelemedicine.web.PrintSummaryController">
+		<property name="formView" value="SummaryPrint"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		
+    </bean>
+    
+    <bean id="viewPatientOrderTest" class="com.televital.fptelemedicine.web.ViewPatientOrderTest">
+		<property name="formView" value="PatientListLabManagementView"></property>
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		
+    </bean>
+
+	<bean id="openAttachedFileController" class="com.televital.fptelemedicine.web.OpenAttachedFileController">
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		<property name="dataPath" value="${data.path}"/>
+        <property name="casePath" value="${case.path}"/>
+        <property name="historyPath" value="${history.path}"/>
+        <property name="labReportPath" value="${labReport.path}"/>
+	</bean>
+	
+	<bean id="displayPhotoController" class="com.televital.fptelemedicine.web.DisplayImageController">
+		<property name="fpportalFacade" ref="fpportalFacade"></property>
+		<property name="filePath" value="${data.path}/${photo.path}"/>
+		<property name="mode" value="PHOTO"/>
+	</bean>
+	
+	
+	</beans>
+	

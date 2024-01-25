@@ -1,0 +1,426 @@
+body {
+font-family: Verdana;
+font-size: 12px;
+font-style: normal;
+line-height: normal;
+font-weight: normal;
+font-variant: normal;
+color: #000;
+margin-top:0px;
+margin-left:0px;
+margin-right:0px;
+margin-bottom:0px;
+text-decoration:none;
+}
+.textwrap{
+white-space:pre-wrap;
+}
+.links {
+font-family: Verdana, Geneva, sans-serif;
+text-transform: none;
+color: #00F;
+z-index: auto;
+}
+.outer_container {
+width:99%;
+margin-top:2px;
+}
+TABLE.tableEMR {
+width:100%;
+text-align:left;
+margin: 0% 0.5% 0.5% 0.5%;
+border: 1px solid #cfcfcf;
+vertical-align: top;
+}
+TABLE.tableEMR th {
+BORDER-BOTTOM: #c3c3c3 1px solid; BACKGROUND-COLOR: #e5eecc; 
+PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; 
+PADDING-RIGHT: 3px; PADDING-TOP: 3px; text-align:left;
+}
+TABLE.tableEMR td {
+PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; 
+PADDING-RIGHT: 3px; PADDING-TOP: 3px
+}
+.tableEMRsub {
+BORDER: #c3c3c3 1px solid;
+text-align:left;
+BORDER-COLLAPSE: collapse; 
+}
+.tableEMRsubHead {
+background-color:#F5F9EC;
+}
+.tableEMRsubTd {
+BORDER: #c3c3c3 1px solid;
+}
+.patInfo {
+BACKGROUND-COLOR: #e5eecc; 
+font-weight:normal; text-align:left;
+}
+TABLE.viewtable {
+width:99%;
+margin: 0% 0.5% 0.5% 0.5%;
+BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; 
+BORDER-COLLAPSE: collapse; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid
+}
+TABLE.viewtable TH {
+BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; 
+PADDING-BOTTOM: 3px; BACKGROUND-COLOR: #e5eecc; PADDING-LEFT: 3px; 
+PADDING-RIGHT: 3px; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid; PADDING-TOP: 3px
+}
+TABLE.viewtable TD {
+BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; 
+PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; 
+BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid; PADDING-TOP: 3px
+}
+
+.links a{
+color: #00F;
+text-decoration:underline;
+}
+.links a:visited{
+color: #00F;
+text-decoration:underline;
+}
+.links a:hover {
+color: #F00;
+text-decoration:underline;
+}
+.logotable {
+padding: 10px;
+}
+.center {
+text-align:center;
+
+}
+
+.navtable {
+background-image:url(horznav.gif);
+background-repeat:repeat-x;
+}
+.navtablebottom {
+background-image:url(horznav_b.gif);
+background-repeat:repeat-x;
+}
+.navigation {
+font-family: Verdana, Geneva, sans-serif;
+font-size: 12px;
+text-transform: none;
+color: #00F;
+text-align: left;
+}
+.navigation a{
+color: #00F;
+text-decoration:underline;
+}
+.navigation a:visited{
+color: #00F;
+text-decoration:underline;
+}
+.navigation a:hover {
+color: #F00;
+text-decoration:underline;
+}
+.logout {
+font-family: Verdana, Geneva, sans-serif;
+font-size: 12px;
+text-transform: none;
+color: #00F;
+}
+.logout a{
+color: #00F;
+text-decoration:underline;
+}
+.logout a:visited{
+color: #00F;
+text-decoration:underline;
+}
+.logout a:hover {
+color: #F00;
+text-decoration:underline;
+}
+
+.EMRlogout {
+font-family: Verdana, Geneva, sans-serif;
+font-size: 12px;
+text-transform: none;
+color:#FFF;
+}
+.EMRlogout a{
+color:#FFF; text-decoration:underline;
+}
+.EMRlogout a:visited{
+color:#FFF; text-decoration:underline;
+}
+.EMRlogout a:hover {
+color:#FFF; text-decoration:underline;
+}
+
+.divheight {
+max-height:60%;
+}
+
+#divHeader {
+position:relative;
+width:100%;
+height:82px;
+z-index:1;
+bottom:0%;
+}
+#divMainmenu {
+position:relative;
+width:100%;
+height: 32px;
+z-index:5;
+}
+#divPagehead {
+position:relative;
+width:100%;
+height: 25px;
+z-index:1;
+}
+#divPageheadEMR {
+position:relative;
+width:100%;
+height: 25px;
+z-index:1;
+}
+#divHeaderEMR {
+position: relative;
+width:100%;
+z-index:1;
+}
+#divPagebody {
+position: relative;
+width:100%;
+z-index:1;
+overflow:auto;
+}
+#divPagebodyEMR {
+position: relative;
+width:100%;
+z-index:1;
+overflow:auto;
+}
+#divSaveSection {
+position: relative;
+width:100%;
+z-index:1;
+overflow:auto;
+}
+#divFooter {
+position:fixed;
+width:100%;
+height:25px;
+bottom:0px;
+z-index:2;
+}
+.errorMessage {
+background:#FFCECE;
+font:Verdana, Geneva, sans-serif;
+font-family:Verdana, Geneva, sans-serif;
+color:#F00;
+text-align:center;
+line-height:20px;
+font-weight:bolder;
+}
+.successMessage {
+background:#0F0;
+font:Verdana, Geneva, sans-serif;
+font-family:Verdana, Geneva, sans-serif;
+color:#00F;
+text-align:center;
+line-height:20px;
+font-weight:bolder;
+}
+.showDiv {
+display:block;
+/*display:table;*/
+width:99.5%;
+
+}
+.hideDiv {
+display:none;
+}
+
+.compulsoryStar {
+color:#F00;
+margin-left:5px;
+font-weight:bold;
+}
+.pageHeadingL1 {
+background-color: #ebe9e9;
+}
+.pageHeadingL2 {
+background-color: #f7f4f4;
+}
+.h1 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:30px;
+	font-weight:bold;
+	color:#98e0e7;
+}
+.h2 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#21959E;
+	height:20px;
+}
+.h3 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	padding-left:12px;
+	height:20px;
+}
+.h4 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	padding-left:12px;
+}
+.conTable {
+}
+.errorField {
+background: #F00; 
+color: #FFF
+}
+.noerrorField {
+background: #FFF; 
+color: #000
+}
+.homepageTitle {
+width:100%; BACKGROUND-COLOR: #27abb7; 
+}
+
+TABLE.aboutusTable {
+	margin: 0% 0.5% 0.5% 0.5%;
+	BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; 
+	BORDER-COLLAPSE: collapse; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid;
+	
+}
+TABLE.aboutusTable TH {
+	BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; 
+	PADDING-BOTTOM: 3px; background-image:url(horznav.gif); PADDING-LEFT: 3px; 
+	PADDING-RIGHT: 3px; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid; PADDING-TOP: 3px
+}
+TABLE.aboutusTable TD {
+	PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; PADDING-TOP: 3px;
+}
+.aboutusTableText{
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#666;
+	text-align:justify;
+}
+
+.OpenedCase {
+	color:#27abb7;
+	font-weight:bold;
+}
+.NotOpenedCase {
+	color:#000;
+	font-weight:normal;
+}
+
+.b{
+font-weight:bold;
+}
+
+.newcase{ 
+	background:url(page_add.png) no-repeat center; 
+	width: 16px; 
+	height: 16px; 
+	border: none;
+	cursor: hand;
+}
+
+.newcasegrey{ 
+	background:url(page_addgrey.png) no-repeat center; 
+	width: 16px; 
+	height: 16px; 
+	border: none; 
+}
+
+.editicon {
+	background:url(page-edit-16x16.png) no-repeat center; 
+	width: 16px; 
+	height: 16px; 
+	border: none; 
+	cursor: hand;
+}
+
+.deleteicon {
+	background:url(delete-16x16.png) no-repeat center; 
+	width: 16px; 
+	height: 16px; 
+	border: none; 
+	cursor: hand;
+}
+
+.reseticon {
+	background:url(delete-16x16.png) no-repeat center; 
+	width: 35px; 
+	height: 16px; 
+	border: none; 
+	cursor: hand;
+}
+
+.viewemr {
+	background:url(page_emr.png) no-repeat center; 
+	width: 35px; 
+	height: 16px; 
+	border: none; 
+	cursor: hand;
+}
+
+.homeUserList {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	padding-left:12px;
+	height:18px;
+}
+.homeUserListH {
+	background-image:url(horznav.gif);
+}
+
+.homeUserListSH{
+	BACKGROUND-COLOR: #e5eecc;
+}
+.h2Home {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#FFFFFF;
+	height:18px;
+}
+
+.fontBold {
+font-weight: bold;
+font-color: #00F;
+}
+
+.fontBold:visited{
+font-weight: bold;
+font-color: #00F;
+}
+
+.fontNormal {
+font-weight: normal;
+font-color: #00F;
+}
+
+.fontNormal:visited{
+font-weight: normal;
+font-color: #00F;
+}
+
+.printtable {
+	width:96%; margin-top:8px; margin-bottom:4px;
+	
+}
+
+.scrollFeature {
+  height:300px; width:150px; overflow-y:scroll;
+  }
+
